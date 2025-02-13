@@ -12,17 +12,18 @@ class FileChange:
 class GitHandler:
     @staticmethod
     def get_file_changes() -> List[FileChange]:
-        """Retrieves the staged and unstaged changes from Git."""
+        """Retrieves only staged changes from Git (after git add)."""
         try:
-            changes_cmd = subprocess.run(
-                ['git', 'diff', 'HEAD', '--unified=0'],
+            # Get staged changes
+            staged_cmd = subprocess.run(
+                ['git', 'diff', '--cached', '--unified=0'],
                 capture_output=True, text=True, check=True
             )
             
-            if not changes_cmd.stdout:
+            if not staged_cmd.stdout:
                 return []
                 
-            return GitHandler._parse_diff_output(changes_cmd.stdout)
+            return GitHandler._parse_diff_output(staged_cmd.stdout)
             
         except subprocess.CalledProcessError as e:
             raise RuntimeError(f"Git command failed: {e.stderr}")

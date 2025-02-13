@@ -52,7 +52,11 @@ prompt_template = Your custom review prompt... # Example, Review the changes and
 ## Usage
 
 1. Make some changes in your Git repository
-2. Run AIReview:
+2. Add changes to the staging area:
+```bash
+git add  the/changed/files
+```
+3. Run AIReview:
 ```bash
 aireview --config path/to/aireview.config
 ```

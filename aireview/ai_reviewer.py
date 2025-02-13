@@ -24,6 +24,8 @@ class AIReviewer:
         """Generate AI reviews for all file changes."""
         reviews = []
         for change in changes:
+            click.echo(f"Generating review for {change.filename}...")
+            
             review_content = self._get_review(
                 change.content,
                 change.filename,
@@ -36,7 +38,6 @@ class AIReviewer:
     def _get_review(self, changes: str, filename: str, 
                     project_context: str, prompt_template: str) -> str:
         """Get AI review for a single file's changes."""
-        click.echo(f"Getting review for {filename}...")
         prompt = f"""{project_context}
 
         {prompt_template}
