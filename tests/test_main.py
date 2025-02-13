@@ -1,8 +1,9 @@
 import pytest
 import os
 from click.testing import CliRunner
-from unittest.mock import patch, Mock
+from unittest.mock import patch, Mock, AsyncMock
 from aireview.main import main
+from aireview.git_handler import FileChange
 
 @pytest.fixture
 def mock_git_no_changes():
@@ -16,23 +17,26 @@ def mock_git_with_changes():
     """Mock GitHandler to return some changes"""
     with patch('aireview.git_handler.GitHandler.get_file_changes') as mock:
         mock.return_value = [
-            type('FileChange', (), {'filename': 'test.py', 'content': 'test content'})()
+            FileChange(
+                filename='test.py',
+                content='test content',
+                file_content='print("hello")\n'
+            )
         ]
         yield mock
 
 @pytest.fixture
 def mock_openai():
-    """Mock OpenAI client"""
-    mock_completion = Mock()
-    mock_completion.choices = [Mock(message=Mock(content="Test review content"))]
-
-    mock_chat = Mock()
-    mock_chat.completions.create.return_value = mock_completion
-
-    mock_client = Mock()
-    mock_client.chat = mock_chat
-
-    with patch('aireview.ai_reviewer.OpenAI') as mock:
+    """Mock AsyncOpenAI client"""
+    with patch('aireview.ai_reviewer.AsyncOpenAI') as mock:
+        mock_client = Mock()
+        mock_client.chat = Mock()
+        mock_client.chat.completions = Mock()
+        mock_client.chat.completions.create = AsyncMock(
+            return_value=Mock(
+                choices=[Mock(message=Mock(content="Test review content"))]
+            )
+        )
         mock.return_value = mock_client
         yield mock
 
@@ -56,7 +60,8 @@ def test_main_cli_with_changes(temp_config_file, mock_git_with_changes, mock_ope
     
     # Check CLI output
     assert result.exit_code == 0
-    assert "Generating review for test.py" in result.output
+    assert "Starting review for test.py" in result.output
+    assert "Completed review for test.py" in result.output
     assert f"AI review written to {output_file}" in result.output
     
     # Check review file content
