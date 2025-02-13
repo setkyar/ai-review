@@ -1,6 +1,7 @@
 """Main module for the AI code review tool."""
 import click
 import logging
+import asyncio
 from typing import List
 from .config import ConfigLoader
 from .git_handler import GitHandler
@@ -47,11 +48,12 @@ def main(config: str):
             base_url=ai_config.base_url
         )
         
-        reviews = reviewer.review_changes(
+        # Run the async review process
+        reviews = asyncio.run(reviewer.review_changes(
             file_changes,
             review_config.project_context,
             review_config.prompt_template
-        )
+        ))
         
         # Write output
         write_reviews(reviews, review_config.output_file)
@@ -62,3 +64,6 @@ def main(config: str):
         click.echo(f"Error: {str(e)}", err=True)
         logging.error(f"Error: {str(e)}")
         return
+
+if __name__ == '__main__':
+    main()

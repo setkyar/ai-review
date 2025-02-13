@@ -84,6 +84,7 @@ setup(
             'pytest>=7.0.0,<8.0.0',
             'pytest-cov>=4.1.0,<5.0.0',
             'pytest-mock>=3.10.0',
+            'pytest-asyncio>=0.23.0',
         ],
     },
 )
