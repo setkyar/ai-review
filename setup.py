@@ -5,8 +5,20 @@ from setuptools import setup, find_packages
 def get_version_from_git():
     """Get version from git tags."""
     try:
-        version = subprocess.check_output(['git', 'describe', '--tags', '--abbrev=0']).decode('utf-8').strip()
-        version = version.lstrip('v')  # Remove 'v' prefix if present
+        # Run the command and capture the output
+        command = ['git', 'tag', '--merged']
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, stderr = process.communicate()
+
+        # Decode the output and split into lines
+        tags = stdout.decode('utf-8').strip().split('\n')
+
+        # Sort tags using version sorting
+        tags_sorted = sorted(tags, key=lambda x: list(map(int, x.split('.'))))
+
+        # Get the latest tag as version
+        version = tags_sorted[-1] if tags_sorted else None
+        
         print(f"Got version from git: {version}")
         return version
     except Exception as e:
