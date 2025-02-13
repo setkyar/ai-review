@@ -2,7 +2,8 @@
 import configparser
 import logging
 from dataclasses import dataclass
-from typing import Optional, Tuple
+from typing import Optional, Tuple, Union
+from typing_extensions import Literal
 
 @dataclass
 class AIConfig:
@@ -23,7 +24,7 @@ class ConfigLoader:
         self.config_file = config_file
         self.config = configparser.ConfigParser()
         
-    def load(self) -> tuple[AIConfig, ReviewConfig]:
+    def load(self) -> Tuple[AIConfig, ReviewConfig]:
         """Load and validate configuration settings."""
         self.config.read(self.config_file)
         

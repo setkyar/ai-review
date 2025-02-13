@@ -30,6 +30,7 @@ setup(
         "click>=8.1.8",
         "openai>=1.62.0",
         "configparser>=7.1.0",
+        "typing-extensions>=4.0.0",  # For Python 3.8 compatibility
     ],
     entry_points={
         'console_scripts': [
