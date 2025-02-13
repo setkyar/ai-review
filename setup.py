@@ -1,34 +1,34 @@
-from setuptools import setup, find_packages
 import os
 import subprocess
+from setuptools import setup, find_packages
 
 def get_version_from_git():
     """Get version from git tags."""
     try:
-        # Get the latest git tag
-        process = subprocess.Popen(['git', 'describe', '--tags', '--abbrev=0'],
-                                 stdout=subprocess.PIPE,
-                                 stderr=subprocess.PIPE)
-        version, stderr = process.communicate()
-        
-        if process.returncode != 0:
-            # If no tags exist, start with 0.1.0
-            return '0.1.0'
-            
-        # Convert bytes to string and strip whitespace
-        version = version.decode('utf-8').strip()
-        
-        # Remove 'v' prefix if it exists
-        if version.startswith('v'):
-            version = version[1:]
-            
+        version = subprocess.check_output(['git', 'describe', '--tags', '--abbrev=0']).decode('utf-8').strip()
+        version = version.lstrip('v')  # Remove 'v' prefix if present
+        print(f"Got version from git: {version}")
         return version
-    except Exception:
-        # Fallback version if git is not available
+    except Exception as e:
+        print(f"Unable to get version from git: {e}")
+        # Try to read from PKG-INFO if it exists (this is for wheel builds)
+        try:
+            with open('aireview.egg-info/PKG-INFO', 'r') as f:
+                for line in f:
+                    if line.startswith('Version:'):
+                        version = line.split(':')[1].strip()
+                        print(f"Got version from PKG-INFO: {version}")
+                        return version
+        except Exception as e:
+            print(f"Unable to read from PKG-INFO: {e}")
+        
+        print("Using default version")
         return '0.1.0'
 
-# Get version from git tags
+# Generate version file
 version = get_version_from_git()
+
+print(f"Building with version: {version}")
 
 # Read README.md for long description
 with open("README.md", "r", encoding="utf-8") as fh:
