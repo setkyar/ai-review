@@ -1,3 +1,8 @@
 [build-system]
 requires = ["setuptools>=45", "wheel", "build"]
 build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+addopts = "--cov=aireview --cov-branch --cov-report=xml"
+testpaths = ["tests"]
+python_files = "test_*.py"
