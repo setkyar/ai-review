@@ -1,4 +1,14 @@
 from setuptools import setup, find_packages
+import os
+
+def get_version():
+    """Get version from version.py."""
+    version_file = os.path.join(
+        os.path.dirname(__file__), 'aireview', 'version.py'
+    )
+    with open(version_file, 'r', encoding='utf-8') as f:
+        exec(f.read())
+        return locals()['__version__']
 
 # Read README.md for long description
 with open("README.md", "r", encoding="utf-8") as fh:
@@ -6,7 +16,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="aireview",
-    version="1.1.0",
+    version=get_version(),
     author="Set Kyar Wa Lar",
     author_email="me@setkyar.com",
     description="AI-powered code review tool for Git repositories",
