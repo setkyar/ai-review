@@ -17,27 +17,15 @@ AIReview is a command-line tool that leverages LLM to provide code reviews for y
 - Support for multiple file reviews in a single run
 
 ## Installation
+Install this tool using `pip`:
 
-1. Clone the repository:
 ```bash
-git clone https://github.com/setkyar/aireview.git
-cd aireview
-```
-
-2. Create and activate a virtual environment:
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
-3. Install the package:
-```bash
-pip install -e .
+pip install aireview
 ```
 
 ## Configuration
 
-Create a configuration file named `aireview.config` with the following structure:
+Create a configuration file named `aireview.config` with the following structure in your project root:
 
 ```ini
 [ai]
@@ -64,7 +52,7 @@ git add  the/changed/files
 ```
 3. Run AIReview:
 ```bash
-aireview --config path/to/aireview.config
+aireview --config path/to/aireview.config # you can skip --config if the config file is in the project root
 ```
 
 The tool will:
@@ -73,6 +61,23 @@ The tool will:
 3. Generate a markdown file with the review comments
 
 ## Development
+
+1. Clone the repository:
+```bash
+git clone https://github.com/setkyar/aireview.git
+cd aireview
+```
+
+2. Create and activate a virtual environment:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. Install the package:
+```bash
+pip install -e .
+```
 
 ### Running Tests
 
