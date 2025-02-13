@@ -1,5 +1,11 @@
 # AIReview
 
+[![PyPI](https://img.shields.io/pypi/v/aireview.svg)](https://pypi.org/project/aireview/)
+[![Changelog](https://img.shields.io/github/v/release/setkyar/aireview?include_prereleases&label=changelog)](https://github.com/setkyar/aireview/releases)
+[![Tests](https://github.com/setkyar/ai-review/actions/workflows/test.yml/badge.svg)](https://github.com/setkyar/ai-review/actions/workflows/test.yml)
+[![codecov](https://codecov.io/gh/setkyar/ai-review/graph/badge.svg?token=RNWN1A9D8J)](https://codecov.io/gh/setkyar/ai-review)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/setkyar/ai-review/blob/master/LICENSE)
+
 AIReview is a command-line tool that leverages LLM to provide code reviews for your Git changes.
 
 ## Features
