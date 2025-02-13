@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="aireview", 
+    name="aireview",
     version="1.1.0",
     author="Set Kyar Wa Lar",
     author_email="me@setkyar.com",
@@ -25,7 +25,7 @@ setup(
         "Topic :: Software Development :: Quality Assurance",
     ],
     packages=find_packages(),
-    python_requires=">=3.7",
+    python_requires=">=3.8",
     install_requires=[
         "click>=8.1.8",
         "openai>=1.62.0",
@@ -38,9 +38,9 @@ setup(
     },
     extras_require={
         'test': [
-            'pytest>=8.3.4',
-            'pytest-cov>=6.0.0',
-            'pytest-mock>=3.14.0',
+            'pytest>=7.0.0,<8.0.0',
+            'pytest-cov>=4.1.0,<5.0.0',
+            'pytest-mock>=3.10.0',
         ],
     },
 )
